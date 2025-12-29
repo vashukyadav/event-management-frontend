@@ -5,24 +5,39 @@ import Register from "./pages/auth/Register";
 import MyBookings from "./pages/user/MyBookings";
 import VendorDashboard from "./pages/vendor/VendorDashboard";
 import UserHome from "./pages/user/UserHome";
+import UserDashboard from "./pages/user/UserDeshboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import VendorPackages from "./pages/vendor/VendorPackages";
 import VendorBookings from "./pages/vendor/VendorBookings";
 import VendorProfile from "./pages/vendor/VendorProfile";
 import AddPackage from "./pages/vendor/AddPackage";
+import PublicEvents from "./pages/public/PublicEvents";
+import Navbar from "./components/common/Navbar";
 
 
 function App() {
   return (
-    <Routes>
+    <>
+      <Navbar />
+      <Routes>
 
       {/* Public Routes */}
+      <Route path="/" element={<PublicEvents />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       {/* User Routes */}
       <Route
-        path="/"
+        path="/user/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["user"]}>
+            <UserDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/user/home"
         element={
           <ProtectedRoute allowedRoles={["user"]}>
             <UserHome />
@@ -82,7 +97,8 @@ function App() {
           </ProtectedRoute>
         }
       />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

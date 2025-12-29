@@ -45,14 +45,19 @@ const AddPackage = () => {
         data.append("images", images[i]);
       }
 
-      await api.post("/packages", data);
+      const response = await api.post("/packages", data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      // ✅ SUCCESS → redirect
+      console.log("Package created:", response.data);
+      alert("Package created successfully!");
       navigate("/vendor/packages");
 
     } catch (error) {
-      console.error(error);
-      alert("Package create failed");
+      console.error("Package creation error:", error.response?.data || error.message);
+      alert("Package create failed: " + (error.response?.data?.message || "Something went wrong"));
     } finally {
       setLoading(false);
     }
