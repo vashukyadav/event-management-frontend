@@ -7,11 +7,17 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-  const login = (data) => {
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data));
-    setUser(data);
+ const login = (data) => {
+  const userData = {
+    id: data.userId || data._id,
+    role: data.role,
+    email: data.email,
   };
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(userData));
+  setUser(userData);
+};
 
   const logout = () => {
     localStorage.clear();

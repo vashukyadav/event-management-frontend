@@ -3,14 +3,20 @@ import { registerApi } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  console.log("✅ Register page rendered");
   const [role, setRole] = useState("user");
   const [form, setForm] = useState({});
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerApi({ ...form, role });
-    navigate("/login");
+    try {
+      console.log('Sending data:', { ...form, role });
+      await registerApi({ ...form, role });
+      navigate("/login");
+    } catch (error) {
+      console.error('Registration error:', error.response?.data || error.message);
+    }
   };
 
   return (
@@ -40,6 +46,11 @@ const Register = () => {
               placeholder="City"
               className="w-full border p-2 mb-3"
               onChange={(e) => setForm({ ...form, city: e.target.value })}
+            />
+            <input
+              placeholder="Phone"
+              className="w-full border p-2 mb-3"
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
           </>
         ) : (
