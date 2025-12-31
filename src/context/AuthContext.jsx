@@ -7,22 +7,28 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
- const login = (data) => {
-  const userData = {
-    id: data.userId || data._id,
-    role: data.role,
-    email: data.email,
-  };
+  const login = (data) => {
+    // backend ke final response ke hisaab se
+    const userData = {
+      id: data.user.id,
+      role: data.user.role,
+      email: data.user.email,
+      name: data.user.name,
+      city: data.user.city,
+    };
 
   localStorage.setItem("token", data.token);
-  localStorage.setItem("user", JSON.stringify(userData));
-  setUser(userData);
+  localStorage.setItem("user", JSON.stringify(data.user));
+  setUser(data.user);
+  };
+
+ const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  setUser(null);
+  window.location.href = "/login"; // HARD RESET
 };
 
-  const logout = () => {
-    localStorage.clear();
-    setUser(null);
-  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

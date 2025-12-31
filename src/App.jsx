@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
+
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import MyBookings from "./pages/user/MyBookings";
@@ -13,6 +14,7 @@ import VendorProfile from "./pages/vendor/VendorProfile";
 import AddPackage from "./pages/vendor/AddPackage";
 import PublicEvents from "./pages/public/PublicEvents";
 import Navbar from "./components/common/Navbar";
+// import MyBookings from "./pages/user/MyBookings";
 
 
 function App() {
