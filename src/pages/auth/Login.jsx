@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { loginApi } from "../../services/auth.service";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "", role: "user" });
@@ -10,15 +11,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const loadingToast = toast.loading('Logging in...');
+    
     try {
       const res = await loginApi(form);
       login(res.data);
+      
+      toast.dismiss(loadingToast);
+      toast.success(`Welcome back, ${res.data.name || 'User'}!`);
 
       if (res.data.role === "vendor") navigate("/vendor/dashboard");
       else navigate("/user/dashboard");
     } catch (error) {
+      toast.dismiss(loadingToast);
       console.error("Login error:", error.response?.data || error.message);
-      alert("Login failed: " + (error.response?.data?.message || "Something went wrong"));
+      toast.error(error.response?.data?.message || "Login failed. Please try again.");
     }
   };
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VendorSidebar from "../../pages/vendor/VendorSidebar";
 import api from "../../api/axois";
+import toast from "react-hot-toast";
 
 const AddPackage = () => {
   const navigate = useNavigate(); // ✅ hook component ke andar
@@ -30,6 +31,7 @@ const AddPackage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const loadingToast = toast.loading('Creating package...');
 
     try {
       setLoading(true);
@@ -51,13 +53,15 @@ const AddPackage = () => {
         },
       });
 
+      toast.dismiss(loadingToast);
       console.log("Package created:", response.data);
-      alert("Package created successfully!");
+      toast.success("Package created successfully!");
       navigate("/vendor/packages");
 
     } catch (error) {
+      toast.dismiss(loadingToast);
       console.error("Package creation error:", error.response?.data || error.message);
-      alert("Package create failed: " + (error.response?.data?.message || "Something went wrong"));
+      toast.error(error.response?.data?.message || "Failed to create package. Please try again.");
     } finally {
       setLoading(false);
     }

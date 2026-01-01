@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../../api/axois.js";
-import toast from "react-hot-toast";
+import { showToast } from "../../utils/toast.js";
 
 const BookingModal = ({ isOpen, onClose, package: pkg }) => {
   const [eventDate, setEventDate] = useState("");
@@ -10,9 +10,11 @@ const BookingModal = ({ isOpen, onClose, package: pkg }) => {
     e.preventDefault();
 
     if (!localStorage.getItem("token")) {
-      toast.error("Please login to book this package");
+      showToast.error("Please login to book this package");
       return;
     }
+
+    const loadingToast = showToast.loading("Processing your booking...");
 
     try {
       setLoading(true);
@@ -22,11 +24,11 @@ const BookingModal = ({ isOpen, onClose, package: pkg }) => {
         eventDate,
       });
 
-      toast.success("Booking request sent successfully!");
+      showToast.success("🎉 Booking request sent successfully!");
       onClose();
     } catch (error) {
       console.error("Booking error:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Booking failed");
+      showToast.error(error.response?.data?.message || "Booking failed. Please try again.");
     } finally {
       setLoading(false);
     }

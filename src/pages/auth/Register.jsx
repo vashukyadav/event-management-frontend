@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { registerApi } from "../../services/auth.service";
 import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Register = () => {
   console.log("✅ Register page rendered");
@@ -10,12 +11,19 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const loadingToast = toast.loading('Creating account...');
+    
     try {
       console.log('Sending data:', { ...form, role });
       await registerApi({ ...form, role });
+      
+      toast.dismiss(loadingToast);
+      toast.success('Account created successfully! Please login.');
       navigate("/login");
     } catch (error) {
+      toast.dismiss(loadingToast);
       console.error('Registration error:', error.response?.data || error.message);
+      toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
     }
   };
 
