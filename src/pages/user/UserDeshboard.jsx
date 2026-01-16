@@ -2,6 +2,8 @@ import { useState } from "react";
 import UserSidebar from "./UserSidebar";
 import UserOverview from "./UserOverview";
 import AccountSettings from "./AccountSettings";
+import UserOrders from "./UserOrders";
+import ChangePassword from "./ChangePassword";
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -30,12 +32,8 @@ const UserDashboard = () => {
           <div className="flex-1 p-8">
             {activeTab === "overview" && <UserOverview />}
             {activeTab === "account" && <AccountSettings />}
-            {activeTab === "orders" && <UserOverview />}
-            {activeTab === "password" && (
-              <h2 className="text-xl font-semibold">
-                Change Password (next)
-              </h2>
-            )}
+            {activeTab === "orders" && <UserOrders />}
+            {activeTab === "password" && <ChangePassword />}
           </div>
 
         </div>

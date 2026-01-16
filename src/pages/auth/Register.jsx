@@ -12,11 +12,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loadingToast = toast.loading('Creating account...');
-    
+
     try {
       console.log('Sending data:', { ...form, role });
       await registerApi({ ...form, role });
-      
+
       toast.dismiss(loadingToast);
       toast.success('Account created successfully! Please login.');
       navigate("/login");
@@ -77,6 +77,13 @@ const Register = () => {
                 setForm({ ...form, businessName: e.target.value })
               }
             />
+            <input
+              placeholder="City"
+              className="w-full border border-gray-300 p-3 mb-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              onChange={(e) =>
+                setForm({ ...form, city: e.target.value })
+              }
+            />
           </>
         )}
 
@@ -96,7 +103,7 @@ const Register = () => {
         <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition-colors mb-4">
           Register
         </button>
-        
+
         <div className="text-center">
           <p className="text-gray-600">
             Already have an account?{" "}

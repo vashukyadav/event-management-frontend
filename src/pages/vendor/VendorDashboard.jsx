@@ -1,45 +1,41 @@
-import VendorSidebar from "../../pages/vendor/VendorSidebar";
+import { useState } from "react";
+import VendorSidebar from  "./VendorSidebar";
+import VendorOverview from "./VendorOverview";
+import VendorPackages from "./VendorPackages";
+import VendorBookings from "./VendorBookings";
+import VendorProfile from "./VendorProfile";
 
 const VendorDashboard = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <VendorSidebar />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
-      {/* Main Content */}
-      <div className="flex-1 p-6 bg-gray-50 min-h-screen">
-        <h1 className="text-2xl font-bold mb-6">
-          Welcome to Vendor Dashboard
-        </h1>
+        {/* Breadcrumb */}
+        <p className="text-sm text-gray-500 mb-4">
+          Home &gt; Vendor Dashboard &gt;{" "}
+          <span className="text-pink-600 capitalize">
+            {activeTab}
+          </span>
+        </p>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white rounded-xl shadow-sm flex overflow-hidden">
 
-          <div className="bg-white p-5 rounded shadow">
-            <h3 className="text-gray-500 text-sm">Total Packages</h3>
-            <p className="text-3xl font-bold mt-2">0</p>
+          {/* LEFT SIDEBAR */}
+          <VendorSidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+
+          {/* RIGHT CONTENT */}
+          <div className="flex-1 p-8">
+            {activeTab === "overview" && <VendorOverview />}
+            {activeTab === "packages" && <VendorPackages />}
+            {activeTab === "bookings" && <VendorBookings />}
+            {activeTab === "profile" && <VendorProfile />}
           </div>
 
-          <div className="bg-white p-5 rounded shadow">
-            <h3 className="text-gray-500 text-sm">Total Bookings</h3>
-            <p className="text-3xl font-bold mt-2">0</p>
-          </div>
-
-          <div className="bg-white p-5 rounded shadow">
-            <h3 className="text-gray-500 text-sm">Pending Requests</h3>
-            <p className="text-3xl font-bold mt-2 text-orange-500">0</p>
-          </div>
-
-        </div>
-
-        {/* Info Section */}
-        <div className="mt-8 bg-white p-6 rounded shadow">
-          <h2 className="text-lg font-semibold mb-2">
-            Quick Info
-          </h2>
-          <p className="text-gray-600">
-            Manage your profile, packages, and booking requests from here.
-          </p>
         </div>
       </div>
     </div>

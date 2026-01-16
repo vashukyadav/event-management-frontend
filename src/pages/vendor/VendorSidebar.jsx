@@ -1,40 +1,85 @@
-import { Link, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Package,
+  ClipboardList,
+  User,
+  LogOut
+} from "lucide-react";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-const VendorSidebar = () => {
-  const location = useLocation();
-
-  const linkClass = (path) =>
-    `block px-4 py-2 rounded ${
-      location.pathname === path
-        ? "bg-blue-600 text-white"
-        : "text-gray-700 hover:bg-gray-200"
-    }`;
+const VendorSidebar = ({ activeTab, setActiveTab }) => {
+  const { user, logout } = useContext(AuthContext);
 
   return (
-    <div className="w-64 min-h-screen bg-gray-100 p-4">
-      <h2 className="text-xl font-bold mb-6 text-center">
-        Vendor Panel
-      </h2>
+    <div className="w-64 border-r p-6 bg-white">
 
-      <nav className="space-y-2">
-        <Link to="/vendor/dashboard" className={linkClass("/vendor/dashboard")}>
-          Dashboard
-        </Link>
+      {/* PROFILE */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="h-12 w-12 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-lg">
+          {user?.businessName?.charAt(0) || "V"}
+        </div>
+        <div>
+          <p className="font-semibold">
+            {user?.businessName || "Vendor"}
+          </p>
+          <p className="text-sm text-gray-500">
+            Vendor
+          </p>
+        </div>
+      </div>
 
-        <Link to="/vendor/profile" className={linkClass("/vendor/profile")}>
-          Profile
-        </Link>
+      <SidebarItem
+        icon={<LayoutDashboard size={18} />}
+        label="Dashboard"
+        active={activeTab === "overview"}
+        onClick={() => setActiveTab("overview")}
+      />
 
-        <Link to="/vendor/packages" className={linkClass("/vendor/packages")}>
-          My Packages
-        </Link>
+      <SidebarItem
+        icon={<Package size={18} />}
+        label="My Packages"
+        active={activeTab === "packages"}
+        onClick={() => setActiveTab("packages")}
+      />
 
-        <Link to="/vendor/bookings" className={linkClass("/vendor/bookings")}>
-          Bookings
-        </Link>
-      </nav>
+      <SidebarItem
+        icon={<ClipboardList size={18} />}
+        label="Bookings"
+        active={activeTab === "bookings"}
+        onClick={() => setActiveTab("bookings")}
+      />
+
+      <SidebarItem
+        icon={<User size={18} />}
+        label="Profile"
+        active={activeTab === "profile"}
+        onClick={() => setActiveTab("profile")}
+      />
+
+      <button
+        onClick={logout}
+        className="mt-6 flex items-center gap-2 text-red-600"
+      >
+        <LogOut size={18} />
+        Logout
+      </button>
     </div>
   );
 };
+
+const SidebarItem = ({ icon, label, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg mb-2 ${
+      active
+        ? "bg-pink-50 text-pink-600 border border-pink-500"
+        : "hover:bg-gray-100"
+    }`}
+  >
+    {icon}
+    {label}
+  </button>
+);
 
 export default VendorSidebar;

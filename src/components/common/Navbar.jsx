@@ -55,12 +55,13 @@ import {
 } from "lucide-react";
 import CityModal from "./CityModal";
 import { AuthContext } from "../../context/AuthContext";
+import { useLocation } from "../../context/LocationContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
+  const { selectedCity, setSelectedCity } = useLocation();
 
-  const [city, setCity] = useState("Select City");
   const [openCityModal, setOpenCityModal] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
@@ -83,7 +84,7 @@ const Navbar = () => {
               className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-pink-600"
             >
               <MapPin size={18} className="text-pink-600" />
-              <span className="font-medium">{city}</span>
+              <span className="font-medium">{selectedCity}</span>
             </div>
           </div>
 
@@ -148,7 +149,7 @@ const Navbar = () => {
                         setOpenUserMenu(false);
                         user.role === "vendor"
                           ? navigate("/vendor/dashboard")
-                          : navigate("/my-bookings");
+                          : navigate("/user/dashboard");
                       }}
                       className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     >
@@ -179,7 +180,7 @@ const Navbar = () => {
       <CityModal
         isOpen={openCityModal}
         onClose={() => setOpenCityModal(false)}
-        onSelect={(selectedCity) => setCity(selectedCity)}
+        onSelect={(city) => setSelectedCity(city)}
       />
     </>
   );

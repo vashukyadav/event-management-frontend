@@ -11,12 +11,12 @@ import VendorBookings from "./pages/vendor/VendorBookings";
 import VendorProfile from "./pages/vendor/VendorProfile";
 import AddPackage from "./pages/vendor/AddPackage";
 import PublicEvents from "./pages/public/PublicEvents";
-import Cart from "./pages/cart/Cart";
+import CartPage from "./pages/cart/Cart";
 import Contact from "./components/common/Contact";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
-
+import ProductDetailPage from "./pages/public/ProductDetailPage";
 function App() {
   return (
     <Routes>
@@ -31,7 +31,7 @@ function App() {
         {/* Public */}
         <Route path="/" element={<PublicEvents />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<CartPage />} />
 
         {/* User */}
         <Route
@@ -42,7 +42,10 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/package/:id"
+          element={<ProductDetailPage />}
+        />
         <Route
           path="/user/home"
           element={
@@ -54,6 +57,15 @@ function App() {
 
         <Route
           path="/my-bookings"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/user/orders"
           element={
             <ProtectedRoute allowedRoles={["user"]}>
               <MyBookings />
