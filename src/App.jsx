@@ -10,6 +10,7 @@ import VendorPackages from "./pages/vendor/VendorPackages";
 import VendorBookings from "./pages/vendor/VendorBookings";
 import VendorProfile from "./pages/vendor/VendorProfile";
 import AddPackage from "./pages/vendor/AddPackage";
+import EditPackage from "./pages/vendor/EditPackage";
 import PublicEvents from "./pages/public/PublicEvents";
 import CartPage from "./pages/cart/Cart";
 import Contact from "./components/common/Contact";
@@ -75,6 +76,15 @@ function App() {
 
         {/* Vendor */}
         <Route
+          path="/vendor-dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["vendor"]}>
+              <VendorDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/vendor/dashboard"
           element={
             <ProtectedRoute allowedRoles={["vendor"]}>
@@ -115,6 +125,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["vendor"]}>
               <AddPackage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/vendor/edit-package/:id"
+          element={
+            <ProtectedRoute allowedRoles={["vendor"]}>
+              <EditPackage />
             </ProtectedRoute>
           }
         />

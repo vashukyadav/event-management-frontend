@@ -24,6 +24,18 @@ const VendorPackages = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this package?")) return;
+    
+    try {
+      await api.delete(`/packages/${id}`);
+      alert("Package deleted successfully!");
+      fetchPackages();
+    } catch (error) {
+      alert("Failed to delete package");
+    }
+  };
+
   return (
     <div>
       {/* HEADER */}
@@ -58,9 +70,24 @@ const VendorPackages = () => {
 
               <h3 className="font-bold text-lg">{pkg.title}</h3>
               <p className="text-gray-600 capitalize">{pkg.eventType}</p>
-              <p className="text-green-600 font-bold">
+              <p className="text-green-600 font-bold mb-3">
                 ₹{pkg.price}
               </p>
+
+              <div className="flex gap-2">
+                <Link
+                  to={`/vendor/edit-package/${pkg._id}`}
+                  className="flex-1 bg-blue-600 text-white px-3 py-2 rounded text-center text-sm"
+                >
+                  Edit
+                </Link>
+                <button
+                  onClick={() => handleDelete(pkg._id)}
+                  className="flex-1 bg-red-600 text-white px-3 py-2 rounded text-sm"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
